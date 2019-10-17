@@ -1,8 +1,9 @@
 package entities;
 
-public class Political {
+public class Political implements Comparable<Political>{
 	private String political;
 	private String politicalParty;
+	private Integer totalVotes=0;
 	
 	public Political(String political, String politicalParty) {
 		
@@ -26,6 +27,15 @@ public class Political {
 		this.politicalParty = politicalParty;
 	}
 
+	public Integer getTotalVotes() {
+		return totalVotes;
+	}
+	public void addVotes(int amount) {
+		totalVotes += amount;
+	}
+	public void removeVotes(int amount) {
+		totalVotes -= amount;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -55,6 +65,12 @@ public class Political {
 		} else if (!politicalParty.equals(other.politicalParty))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Political other) {
+		
+		return -totalVotes.compareTo(other.getTotalVotes());
 	}
 	
 }
