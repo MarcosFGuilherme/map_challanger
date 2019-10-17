@@ -3,7 +3,11 @@ package application;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import entities.Political;
 
 public class Program {
 
@@ -15,19 +19,26 @@ public class Program {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(pathIn))) {
 
-			//Set<> set = new HashSet<>();
+			Map<Political, Integer> politicals = new HashMap<>();
 			String line = br.readLine();
 
 			while (line != null) {
 				String[] fields = line.split(",");
-				String politic = fields[0];
-				Integer votes = Integer.parseInt( fields[1]);
-				System.out.println("Politic : " + politic + " | Votes : " + votes);
-				
-				//set.add();
+				String politicalParty = fields[0];
+				String political = fields[1];
+				Integer value = Integer.parseInt(fields[2]);
+				Political key = new Political(political, politicalParty);
+				if (politicals.containsKey(key)) {
+					value += politicals.get(key);
+				}
+				politicals.put(key, value);
 				line = br.readLine();
 			}
-			//System.out.println("Total users: " + set.size());
+			
+			for (Political key : politicals.keySet()) {
+				System.out.println("Political Party : " + key.getPoliticalParty() + " | Political : " + key.getPolitical() + " | Votes : " + politicals.get(key));
+			}
+			
 		} catch (IOException e) {
 			System.out.println("Error reading file: " + e.getMessage());
 		}
